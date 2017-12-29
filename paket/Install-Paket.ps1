@@ -3,18 +3,23 @@ param(
     $Path
 )
 
+Write-Verbose "Invoking Install-Paket.ps1"
+Write-Verbose "`$Version=$Version"
+Write-Verbose "`$Path=$Path"
+
 $paketExecutable = "paket.bootstrapper.exe"
 Write-Host "$paketExecutable will be downloaded and renamed to paket.exe. This will enable `"magic mode`" see: https://fsprojects.github.io/Paket/bootstrapper.html#Magic-mode for more details."
 
 
 
 Set-StrictMode -Version Latest
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 if(-not $Path) {
-    Write-Host "Path is not set script directory will be used as path"
-    $Path = $here
+    Write-Host "Path is not set, current directory will be used as path"
+    $Path = Get-Location
 }
+
+Write-Verbose "`$Path=$Path"
 
 Set-StrictMode -Version Latest
 $paketRepositoryUrl = "https://github.com/fsprojects/Paket"
