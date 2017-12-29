@@ -42,7 +42,7 @@ Write-Host "Searching for paket.dependencies file in Path: `"$Path`""
 $paketDependenciesFile = Get-ChildItem -Path $Path -Recurse -Filter "paket.dependencies" | Select-Object -First 1
 
 if(-not $paketDependenciesFile) {
-    throw "Could not find a paket.dependencies file in Path: `"$Path`". Make sure Paket is initialized or specify a different path to search using the -Path argument."
+    throw "Could not find a paket.dependencies file in Path: `"$Path`". Make sure at least an empty paket.dependencies file exists in this directory or any subdirectory or specify a different path to search using the -Path argument."
 }
 
 Write-Host "Found paket.dependencies: `"$($paketDependenciesFile.FullName)`""
