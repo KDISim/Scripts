@@ -1,4 +1,4 @@
-new-module -name init -scriptblock {
+new-module -name InitializeRepository -scriptblock {
     function _installTool ($tool) {
         switch ($tool) 
         { 
@@ -13,8 +13,14 @@ new-module -name init -scriptblock {
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString($installScriptUrl))
     }
     
-    function Init {
-        Write-Verbose "Invoking Init.ps1"
+    function Initialize-Repository {
+        param(
+            [Parameter()]
+            [ValidateSet('paket')]
+            [string[]]
+            $RequiredTools
+        )
+        Write-Verbose "Invoking InitializeRepository.ps1"
         
         if($RequiredTools -gt 0) {
             Write-Verbose "`$RequiredTools:"
@@ -29,8 +35,7 @@ new-module -name init -scriptblock {
         }
     }
   
-    set-alias init -value Init
+    set-alias initialize -value Initialize-Repository
   
-    export-modulemember -alias 'init'
-  }
-
+    export-modulemember -Function "Initialize-Repository" -alias 'Initialize'
+}
