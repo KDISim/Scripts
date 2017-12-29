@@ -1,13 +1,8 @@
 new-module -name Repository -scriptblock {
     $Script:downloadBaseUrl = "https://raw.githubusercontent.com/KDISim/Scripts/latest/"
     
-    function _installPaket {
-        Write-Host "Installing paket"
-        $installScriptUrl = "$downloadBaseUrl/installers/Paket.ps1"
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString($installScriptUrl))
-    }
-
-    function _loadInstallerModule($url) {
+    function _loadInstallerModule($installerModule) {
+        $url = "$($Script:downloadBaseUrl)/installers/$installerModule.ps1"
         . { Invoke-WebRequest -useb $url } | Invoke-Expression
     }
     
@@ -20,12 +15,10 @@ new-module -name Repository -scriptblock {
         Write-Verbose "`$Version=$Version"
         Write-Verbose "`$Path=$Path"
 
-        $url = "$downloadBaseUrl/installers/Paket.ps1"
-        $module = _loadInstallerModule $url
-        Paket-Install
+        $module = _loadInstallerModule "Paket"
+        installPaket -Version $Version -Path $Path
         Remove-Module $module
     }
-  
   
     export-modulemember -Function "Install-Paket"
 }

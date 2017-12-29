@@ -1,5 +1,5 @@
 new-module -name PaketInstaller -scriptblock {
-    function Paket-Install {
+    function Install-Paket {
         param(
             $Version,
             $Path
@@ -66,5 +66,7 @@ new-module -name PaketInstaller -scriptblock {
         
     }
 
-    export-modulemember -Function "Paket-Install"
+    set-alias installPaket -value Install-Paket
+
+    export-modulemember -Alias "installPaket" -Function "Install-Paket"
 }
